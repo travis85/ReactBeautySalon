@@ -41,15 +41,18 @@ import eyeLashInstallPhoto from '../assets/lashesAndBrows/eyeLashInstallPhoto.jp
 
 function lashesAndBrows() {
 
-  return (
-      <div className='p-10' style={{
+    return (
+        <div className='grid place-items-center sm:p-10' style={{
             backgroundImage: `url(${pinkBg})`,
             width: '100%',
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover"
-        }}>
-          <ProductCard cardData={cardInfoLashesAndBrows}/>
-    </div>
-  )
+            }}>
+            <div>
+                <ProductCard cardData={cardInfoLashesAndBrows}/>
+            </div>
+            
+        </div>
+    )
 }
 export default lashesAndBrows

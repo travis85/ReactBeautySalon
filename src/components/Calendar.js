@@ -4,16 +4,24 @@ import email from '../utils/email';
 import Button from 'react-bootstrap/esm/Button';
 
 
-export default function Calendar({items}) {
+export default function Calendar(additionalItems) {
   const [isOpen, setIsOpen] = useState(false)
+      console.log(additionalItems,'VKUFUYFYUFV')
+
   const templateParams = {
-    message: items.map(item =>{return item.id })
+    name: additionalItems.name,
+    phoneNumber: additionalItems.phoneNumber,
+    stylist: additionalItems.items.stylist,
+    title: additionalItems.items.title,
+    total: additionalItems.items.total,
+    additionalStyling: additionalItems.items.additionalStyling.map(item =>{return item}),
+    additionalDetails: additionalItems.items.additionalDetails
   }
   const runBothFunctions = () => {
     setIsOpen(true) 
     email(templateParams)
   }
-  
+
     return (
       <div className='bg-gray-500 w-fit'>
         <Button

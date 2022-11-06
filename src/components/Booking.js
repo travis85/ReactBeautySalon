@@ -6,7 +6,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import pinkBg from '../assets/background/pinkBgPhoto.jpeg'
 import CustomerForm from './CustomerForm';
 
-
 const additionalStylingHair = {
 'Wash and Blow dry:': '40',
 'Highlights:': '60', 
@@ -28,14 +27,20 @@ const additionalStylingLashes = {
 }
 
 export default function Booking() {
-    const location = useLocation();
-    const price = location.state.card.price
-    const title = location.state.card.title
-    const photo = location.state.card.photo
-    const [total, setTotal] = useState(0)
-    const [items, setItems] = useState([])
-    const [stylist, setStylist] = useState('Random')
+  const location = useLocation();
+  const price = location.state.card.price
+  const title = location.state.card.title
+  const photo = location.state.card.photo
+  const [stylist, setStylist] = useState('Random')
+  const [total, setTotal] = useState(price)
 
+  let [additionalItems, setAdditionalItems] = useState([{
+    title: title,
+    total: Number(total) ,
+    stylist: stylist,
+    additionalStyling: [],
+    additionalDetails: ''
+  }])
 
   let additionalStyling 
   if (title.match('Nails')) {
@@ -46,54 +51,94 @@ export default function Booking() {
     additionalStyling = additionalStylingHair
   }
 
-  const add = (price) => {
+  const add = ( price) => {
     setTotal(price + Number(total))
-  }
+ }
   const subtract = (price) => {
-    setTotal(Number(total) - price )
+    setTotal(Number(total) - price)
   }
-  const addStylestToItems = (name) =>{
+  
+  const addStylestToItems = (name) => {
     setStylist(name)
+    const additionalDetails = additionalItems[0].additionalDetails
+    const additionalStyling = additionalItems[0].additionalStyling
+    setAdditionalItems([additionalItems = {
+      stylist: stylist,
+      title: title,
+      additionalDetails: additionalDetails,
+      additionalStyling: additionalStyling,
+      total: Number(total)
+    }])
+
+  }
+  
+  const addAdditionalDetails = (e) => {
+    e.preventDefault()
+    setAdditionalItems([...additionalItems, additionalItems[0].additionalDetails = e.target.value])
   }
 
-  const addToItems = (price, id) => {
-    const itemToAdd = { id: id }
-    const isThere = items.some(item => item.id === itemToAdd.id) //USED TO COMPARE OBJECTS AND CHECK IF INSIDE ARRAY
+
+  const addToAdditionalItems =  (price, key) => {
+    const additionalDetails = additionalItems[0].additionalDetails
+    let additionalStyling = additionalItems[0].additionalStyling
+    const isThere = additionalItems[0].additionalStyling.some(item => item === key)
     if (!isThere) {
-      setItems([...items, { id: id }])
       add(price)
+
+      setAdditionalItems([...additionalItems, additionalStyling.push(key)])
+      setAdditionalItems([additionalItems = {
+        stylist: stylist,
+        title: title,
+        total: Number(total) ,
+        additionalDetails: additionalDetails,
+        additionalStyling: additionalStyling
+      }])
+
+
     } else {
       subtract(price)
-      setItems(items => {
-        return items.filter(item => item.id !== id)
-      })
+      setAdditionalItems([additionalItems = {
+        stylist: stylist,
+        title: title,
+        total: Number(total) ,
+        additionalDetails: additionalDetails,
+        additionalStyling: additionalStyling.filter(item => item !== key)
+      }])
+
     }
+    console.log(total, 'TOTAL')
+
+
   }
 
-    useEffect(() => {
-        setTotal(price) 
-    },[])
+  
+
+  useEffect(() => {
+    console.log(total, 'kjlasbv;kjqnv')
+    setTotal(total)
+  },[total])
+  
     return (
-          <>
-    <div className='p-12 grid grid-cols-2 place-content-center content-center'style={{
-            backgroundImage: `url(${pinkBg})`,
-            width: '100%',
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover"
+    <>
+    <div className=' grid grid-cols-1  p-8 sm:p-12 sm:grid-cols-2 sm:place-content-center sm:content-center'style={{
+        backgroundImage: `url(${pinkBg})`,
+        width: '100%',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
         }} >
-        <div className=''> 
-        <Dropdown className="mb-4">
+        <div className='sm:order-first'> 
+          <Dropdown className="mb-4">
             <Dropdown.Toggle id="dropdown-autoclose-true">
-                Choose Stylist
+              Choose Stylist
             </Dropdown.Toggle>
                 
             <Dropdown.Menu>
-                <Dropdown.Item onClick={()=>addStylestToItems('Random')} id='Jennifer'>Random</Dropdown.Item>
-                <Dropdown.Item onClick={()=>addStylestToItems('Jennifer')} id='Jennifer'>Jennifer</Dropdown.Item>
-                <Dropdown.Item onClick={()=>addStylestToItems('LouAnn')} id='LouAnn'>LouAnn</Dropdown.Item>
-                <Dropdown.Item onClick={()=>addStylestToItems('Mary')} id='Mary'>Mary</Dropdown.Item>
+              <Dropdown.Item onClick={()=>addStylestToItems('Random')} id='Random'>Random</Dropdown.Item>
+              <Dropdown.Item onClick={()=>addStylestToItems('Jennifer')} id='Jennifer'>Jennifer</Dropdown.Item>
+              <Dropdown.Item onClick={()=>addStylestToItems('LouAnn')} id='LouAnn'>LouAnn</Dropdown.Item>
+              <Dropdown.Item onClick={()=>addStylestToItems('Mary')} id='Mary'>Mary</Dropdown.Item>
             </Dropdown.Menu>
-            </Dropdown>
+          </Dropdown>
 
             <p>Additions:</p>
             <Form>
@@ -103,52 +148,45 @@ export default function Booking() {
                     type={'checkbox'}
                     id={key}
                     label={`${key} $${value}`}
-                    onClick={()=>{addToItems(Number(value), key )}}
+                    onClick={async()=>{ await addToAdditionalItems(Number(value), key )}}
                   />
                 </div>
               ))}
-              <Form.Group className="mb-3 w-[50%]" controlId="exampleForm.ControlTextarea1">
+              <Form.Group className="w-[85%] mb-3 sm:w-[50%]" controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Additional Details:</Form.Label>
-                <Form.Control as="textarea" rows={3} />
+                <Form.Control as="textarea" rows={3} onChange={addAdditionalDetails} />
              </Form.Group>
             </Form>
               <input type="file" id="myFile" name="filename"/>
           <p><strong>Total:</strong> <span>{currencyFormatter.format(total)}</span></p>
-            {/* <Calendar items={items}  className='float-left'/> */}
-            <CustomerForm additionalItems={items}/>
-          </div>
+            <CustomerForm items={additionalItems[0]}/>
+        </div>
           
-        <div className='grid place-items-center border-4 border-double border-purple-500/75 shadow-2xl relative bg-white'>
-          <h2 className=' top-2'>You Have Selected</h2>
+        <div className='order-first pt-2 grid justify-items-center mb-4 sm:place-items-center border-4 border-double border-purple-500/75 shadow-2xl bg-white'>
+          <h2 className=''>You Have Selected</h2>
             <div className=''>
                <img src={photo} width={200} height={200} alt='image'/>
             </div>
            <div className='relative'>
 
             <p className=''>{title}</p>
-            <p>Your Stylist will be <span className='text-blue-500'>{stylist}</span></p>
+            <p>Your Stylist will be <span className='text-blue-500'>{additionalItems[0].stylist}</span></p>
             <ul>
               
-              {items.map(item => {
+              {additionalItems[0].additionalStyling.map(item => {
                
                 return (
-                  <li key={item.id}>
-                    {item.id}              
+                  <li key={item}>
+                    {item}              
                   </li>
                 )
               })}
             </ul>
-                
-
           </div>
         </div>
-                 
       </div> 
-       
     </>
-
   )
-    
 }
 
 

@@ -57,15 +57,16 @@ const cardInfoHair = [
 
 export default function Hair() {
   return (
-      <div  className='p-10' style={{
-            backgroundImage: `url(${pinkBg})`,
-            width: '100%',
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover"
-        }} 
-          
-      >
-          <ProductCard cardData = {cardInfoHair} />
+    <div className='grid place-items-center sm:p-10' style={{
+        backgroundImage: `url(${pinkBg})`,
+        width: '100%',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+      }}>
+          <div className=''>
+               <ProductCard cardData = {cardInfoHair} />
+          </div>
+       
     </div>
   )
 }

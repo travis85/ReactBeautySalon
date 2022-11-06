@@ -64,22 +64,23 @@ import ovalNails from '../assets/nails/ovalNails.jpeg'
 
 
 function nails() {
-
-
     
   return (
-      <div className='p-10' style={{
-            backgroundImage: `url(${pinkBg})`,
-            width: '100%',
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover"
-        }}>
-      <ProductCard cardData = {cardInfoNails} />
-      </div>
+    <div className='grid place-items-center sm:p-10' style={{
+        backgroundImage: `url(${pinkBg})`,
+        width: '100%',
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+      }}>
+          <div>
+              <ProductCard cardData={cardInfoNails} />
+          </div>
+          
+        
+          
+    </div>
     
   )
 }
-
-
 
 export default nails
