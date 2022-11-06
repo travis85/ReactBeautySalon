@@ -1,43 +1,46 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import {Link} from "react-router-dom";
-import { currencyFormatter } from './currencyFormatter'
+import { currencyFormatter } from '../utils/currencyFormatter'
+import '../index.css'
 
 function ProductCard({ cardData }) {
-    
-console.log(cardData )
+    const navigate = useNavigate()
+    const [state, setState] = useState('null')
+    const setCard = (card) => { setState(card) }
+       
+        
+
     return (
-      <ul>
-        <div className='grid grid-cols-3 place-items-center'>
+        <ul>
+            <div className='grid grid-cols-2 mt-4 sm:grid-cols-3' >
                 {cardData.map((card) => {
-                
-                const photo = card.photo 
-                console.log(photo, 'kljsbviwjfvnwjnv')
-                return (
-                    <li key={card.id} className='m-2 border-2 border-pink-500'>
-                        <Card style={{ width: '16rem' }} id={card.id} className=''>
-                            <img src={photo} width={400} height={400} alt='image'/>
-                            <Card.Body className='bg-fuchsia-200 '>
-                                <Card.Title className='text-purple-900'>{ card.title }</Card.Title>
-                                <Card.Text className='text-purple-900'>{ currencyFormatter.format(card.price) } </Card.Text>
-                                <Link to={{
-                                    pathname: '/Booking',
-                                    query: {
-                                        price: card.price,
-                                        photo: card.photo,
-                                        title: card.title,
-                                    }
-                                }}>
-                                    <a href='/'><Button variant="primary"> Book </Button></a>
-                                </Link>
-                            </Card.Body>
-                        </Card>       
-                    </li>
-                )
-            })} 
+                    const photo = card.photo 
+                    return (
+                        
+                        <li key={card.id} className='mr-2 mb-2 border-2 border-pink-500 w-fit '>
+                            <Card id={card.id} className='card relative'>
+                                <img src={photo} id='cardPhoto' alt='image' />
+                                <Card.Body className='bg-fuchsia-200 h-36 '>
+                                    <Card.Title className='text-purple-900'>{ card.title }</Card.Title>
+                                    <Card.Text className='text-purple-900'>{ currencyFormatter.format(card.price) } </Card.Text>
+                                    <Link onClick={navigate('/Booking', { state: { card: state } })}>
+                                        <Button variant="primary" className='absolute bottom-2 left-2'  onClick={()=> setCard(card)}> Book </Button>
+                                    </Link>
+                                </Card.Body>
+                            </Card>       
+                        </li>
+                    )
+                })} 
             </div>
         </ul>
+           
+        
+   
+        
+   
     )
  }
 
