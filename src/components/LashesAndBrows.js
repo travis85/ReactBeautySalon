@@ -29,7 +29,7 @@ import eyeLashInstallPhoto from '../assets/lashesAndBrows/eyeLashInstallPhoto.jp
         price: '40'
     },
     {
-        id: '3',
+        id: '4',
         photo: eyebrowWax,
         title: 'Eye Brow Wax' ,
         description: null,
