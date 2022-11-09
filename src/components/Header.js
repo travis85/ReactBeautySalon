@@ -29,17 +29,18 @@ export default function Header() {
               <h3 className=' mr-5 
               sm:mr-5 cursor-pointer transition ease-in-out delay-150 text-pink-500
               hover:-translate-y-1 hover:scale-110 hover:text-pink-600 duration-300 '>Hair</h3>
+          </Link>
+          <Link to='/LashesAndBrows' className='no-underline'>
+              <h3 className=' mr-5 
+              sm:cursor-pointer transition ease-in-out delay-150 text-pink-500
+              hover:-translate-y-1 hover:scale-110 hover:text-pink-600 duration-300'>Lashes & Brows</h3>
             </Link>
             <Link to='/Nails' className='no-underline'>
               <h3 className=' mr-5
                sm:mr-5 cursor-pointer transition ease-in-out delay-150
                text-pink-500 hover:-translate-y-1 hover:scale-110 hover:text-pink-600 duration-300'>Nails</h3>
             </Link>
-            <Link to='/LashesAndBrows' className='no-underline'>
-              <h3 className=' mr-5 
-              sm:cursor-pointer transition ease-in-out delay-150 text-pink-500
-              hover:-translate-y-1 hover:scale-110 hover:text-pink-600 duration-300'>Lashes & Brows</h3>
-            </Link>
+            
           </div>
       </div>
 
